@@ -99,7 +99,7 @@ JOIN Child_Preferences C ON (F.child_key = C.child_key AND F.userID = C.userID);
 CREATE VIEW parent_details AS
 SELECT U.*,F.occupation,F.marital_status,YEAR(NOW()) - YEAR(birthdate) AS Age
 FROM Family_rep F
-JOIN USER U ON F.userID = U.userID;
+JOIN User U ON F.userID = U.userID;
 
 -- finding Average age
 
@@ -148,7 +148,7 @@ ON U.userID = highest_pay.userID;
 -- Q20. Find all single parent with full details.
 
 SELECT *
-FROM USER U
+FROM User U
 JOIN (SELECT *
 	FROM Family_rep F
 	WHERE F.marital_status = "single") AS single_fam
