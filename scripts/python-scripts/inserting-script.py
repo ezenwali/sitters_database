@@ -1,16 +1,21 @@
+import os
 import random
 import string
 import mysql.connector
 from faker import Faker
 import datetime
+from dotenv import load_dotenv
 from helper import generate_random_preferences,generate_random_disabilities,generate_random_skills
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Connect to MySQL database
 db_connection = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="Desinho20@",
-    port="3306",
+    host=os.getenv("DB_HOST"),
+    user=os.getenv("DB_USER"),
+    password=os.getenv("DB_PASSWORD"),
+    port=os.getenv("DB_PORT")
 )
 
 # Create cursor
