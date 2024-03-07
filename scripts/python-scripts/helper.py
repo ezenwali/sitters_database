@@ -1,4 +1,6 @@
+import datetime
 import random
+import string
 
 # preferences
 sample_preferences = [
@@ -90,3 +92,22 @@ def generate_random_skills():
     random.shuffle(sample_skills)
     return sample_skills[:num_skills]
 
+
+# Function to generate random date within a range
+def random_date(start, end):
+    return start + datetime.timedelta(
+        seconds=random.randint(0, int((end - start).total_seconds()))
+    )
+
+# Function to generate a random time within a day
+def random_time():
+    return datetime.time(random.randint(0, 23), random.randint(0, 59))
+
+# Function to generate random mobile number
+def random_mobile_number():
+    return ''.join(random.choices(string.digits, k=10))
+
+def random_createdAt_date():
+    start_date = datetime.datetime(2022, 1, 1)
+    end_date = datetime.datetime(2023, 12, 31)
+    return random_date(start_date, end_date)

@@ -16,6 +16,8 @@ CREATE TABLE User (
     fullname VARCHAR(255) NOT NULL,
     birthdate DATE NOT NULL,
     mobile_number VARCHAR(15) NOT NULL,
+    createdAt DATE NOT NULL,
+    
     PRIMARY KEY(userID)
 );
 

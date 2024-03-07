@@ -5,7 +5,7 @@ import mysql.connector
 from faker import Faker
 import datetime
 from dotenv import load_dotenv
-from helper import generate_random_preferences,generate_random_disabilities,generate_random_skills
+from helper import generate_random_preferences,generate_random_disabilities,generate_random_skills, random_createdAt_date, random_date, random_mobile_number, random_time
 
 # Load environment variables from .env file
 load_dotenv()
@@ -44,19 +44,6 @@ except mysql.connector.Error as err:
 
 db_connection.database = "Sitters_nannies"
 
-# Function to generate random date within a range
-def random_date(start, end):
-    return start + datetime.timedelta(
-        seconds=random.randint(0, int((end - start).total_seconds()))
-    )
-
-# Function to generate a random time within a day
-def random_time():
-    return datetime.time(random.randint(0, 23), random.randint(0, 59))
-
-# Function to generate random mobile number
-def random_mobile_number():
-    return ''.join(random.choices(string.digits, k=10))
 
 # Generate 250 users
 fake = Faker('en_US')
@@ -66,10 +53,11 @@ for iter in range(250):
     fullname = fake.name()
     birthdate = fake.date_of_birth(minimum_age=18, maximum_age=70)
     mobile_number = random_mobile_number()
+    createdAt = random_createdAt_date() 
     
     # Insert user into User table
-    insert_user_query = "INSERT INTO User (email, address, fullname, birthdate, mobile_number) VALUES (%s, %s, %s, %s, %s)"
-    user_data = (email, address, fullname, birthdate, mobile_number)
+    insert_user_query = "INSERT INTO User (email, address, fullname, birthdate, mobile_number, createdAt) VALUES (%s, %s, %s, %s, %s, %s)"
+    user_data = (email, address, fullname, birthdate, mobile_number, createdAt)
     cursor.execute(insert_user_query, user_data)
     db_connection.commit()
 
@@ -94,7 +82,7 @@ for iter in range(250):
         for _ in range(num_children):
             child_name = fake.first_name()
             gender = random.choice(["Male", "Female"])
-            child_birthdate = fake.date_of_birth(minimum_age=0, maximum_age=18)
+            child_birthdate = fake.date_of_birth(minimum_age=3, maximum_age=18)
             
             # Insert child into Child table
             insert_child_query = "INSERT INTO Child (userID, birth_date, child_name, gender) VALUES (%s, %s, %s, %s)"
