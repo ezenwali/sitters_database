@@ -89,3 +89,4 @@ def generate_random_skills():
     num_skills = random.randint(1, 3)
     random.shuffle(sample_skills)
     return sample_skills[:num_skills]
+

@@ -59,8 +59,8 @@ def random_mobile_number():
     return ''.join(random.choices(string.digits, k=10))
 
 # Generate 250 users
-fake = Faker()
-for iter in range(200):
+fake = Faker('en_US')
+for iter in range(250):
     email = str(iter)+fake.email()
     address = fake.address()
     fullname = fake.name()
@@ -124,7 +124,7 @@ for iter in range(200):
         ssn = fake.ssn()
         highest_edu = random.choice(["High School", "Bachelor's Degree", "Master's Degree", "PhD"])
         gender = random.choice(["Male", "Female"])
-        availability = fake.text(max_nb_chars=100)
+        availability = random.choice(["Fulltime", "Partime"])
         
         # Insert nanny into Nanny table
         insert_nanny_query = "INSERT INTO Nanny (userID, ssn, highest_edu, gender, availability) VALUES (%s, %s, %s, %s, %s)"
@@ -164,8 +164,11 @@ nanny_ids_for_contracts = random.choices(nanny_ids, k=contracts_to_generate)
 for (fr_id, child_key), nanny_id in zip(family_representatives_for_contracts, nanny_ids_for_contracts):
     start_date = datetime.datetime(2022, 1, 1)  # Start date range
     end_date = datetime.datetime(2023, 12, 31)  # End date range
-    contract_start_date = random_date(start_date, end_date)
-    contract_end_date = random_date(contract_start_date, end_date)
+    contract_start_date = random_date(start_date, end_date) # real start_date
+    
+    max_end_date = min(contract_start_date + datetime.timedelta(days=10), end_date) # Ensure that the contract end date is within 10 days from the start date
+
+    contract_end_date = random_date(contract_start_date, max_end_date)
     pay_per_hour = round(random.uniform(10, 50), 2)  # Random pay per hour between $10 and $50
     
     # Insert contract into Contract table

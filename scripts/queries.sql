@@ -156,12 +156,22 @@ ON U.userID = single_fam.userID
 
 
 
+Select u.userID,address,fullname,birthdate,occupation,marital_status,highest_edu,gender,availability,   CASE 
+        WHEN f.userID IS NOT NULL THEN 'family_rep'
+        WHEN n.userID IS NOT NULL THEN 'nanny'
+    END AS role
+From User u
+Left Join Family_rep f
+On u.userID = f.userID
+Left join Nanny n
+On n.userID = u.userID
 
 
 
-
-
-
-
-
-
+Select c.contractID,start_date,end_date,pay_per_hour,f.userID as family_rep_id,n.userID as nanny_id
+From Contract c
+Join Family_rep_sign_contract f
+On c.contractID = f.contractID
+Join Nanny_sign_contract n
+On c.contractID = n.contractID
+    
